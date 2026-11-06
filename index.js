@@ -598,14 +598,30 @@ async function queuePlaylist() {
   return p.id;
 }
 
+// Once the listener deletes it, Spotify answers 404 to changing it, so a new
+// one takes its place.
+async function fillQueue(uris) {
+  const write = async () => {
+    const id = await queuePlaylist();
+    await call("PUT", `/playlists/${id}/items`, { body: { uris } });
+    return id;
+  };
+  try {
+    return await write();
+  } catch (e) {
+    if (e.status !== 404) throw e;
+    host.storage.remove("queue");
+    return write();
+  }
+}
+
 // The last answer about what plays, for while Spotify asks to wait.
 let last = null;
 let quietUntil = 0;
 
 export async function remotePlay({ ids, start, position }) {
   last = null;
-  const [queue, device] = await Promise.all([queuePlaylist(), deviceId()]);
-  await call("PUT", `/playlists/${queue}/items`, { body: { uris: ids.slice(start, start + playWindow).map(uriOf) } });
+  const [queue, device] = await Promise.all([fillQueue(ids.slice(start, start + playWindow).map(uriOf)), deviceId()]);
   await call("PUT", "/me/player/play", {
     query: { device_id: device },
     body: { context_uri: `spotify:playlist:${queue}`, offset: { position: 0 }, position_ms: position },

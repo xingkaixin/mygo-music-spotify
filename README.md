@@ -41,7 +41,7 @@ librespot plays on this computer as the device **MyGo Music**. It's used when no
 
 ## The MyGo Music Queue playlist
 
-Spotify's desktop app doesn't play a list of songs sent to it, only a playlist or an album. So the first time you play, the plugin makes a private playlist named **MyGo Music Queue** in your library, and each time you play it writes what's up next there, up to 100 songs, and plays it. MyGo Music hides it from its sidebar; Spotify's apps show it. Don't edit it: it's rewritten each time.
+Spotify's desktop app doesn't play a list of songs sent to it, only a playlist or an album. So the first time you play, the plugin makes a private playlist named **MyGo Music Queue** in your library, and each time you play it writes what's up next there, up to 100 songs, and plays it. MyGo Music hides it from its sidebar; Spotify's apps show it. Don't edit it: it's rewritten each time. If you delete it, the plugin makes a new one the next time you play.
 
 ## What works
 
