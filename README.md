@@ -2,7 +2,7 @@
 
 Browse and control Spotify from [MyGo Music](https://github.com/egoist/mygo-music). It isn't affiliated with or endorsed by Spotify.
 
-The sound comes from a Spotify Connect device: Spotify's own app on this computer or your phone, a speaker, or anything else your account plays on. MyGo Music shows your library and tells that device what to play.
+The sound comes from a Spotify Connect device: Spotify's own app on this computer or your phone, a speaker, or anything else your account plays on. MyGo Music shows your library and tells that device what to play. With [librespot](https://github.com/librespot-org/librespot) installed, this computer is such a device without Spotify's app open.
 
 **Playing needs Spotify Premium.**
 
@@ -23,9 +23,21 @@ The sound comes from a Spotify Connect device: Spotify's own app on this compute
 
    [https://github.com/xingkaixin/mygo-music-spotify](https://github.com/xingkaixin/mygo-music-spotify)
 3. In the plugin's settings, paste the app's **Client ID**, then click **Sign In** and approve access in your browser.
-4. Open Spotify on a device, then play something in MyGo Music. Choose another device from the player's device menu.
+4. Open Spotify on a device, or set up librespot as below, then play something in MyGo Music. Choose another device from the player's device menu.
 
 An app in Spotify's Development Mode lets in five accounts at most. To share yours, add the other accounts under **User Management** in the dashboard.
+
+## Playing without Spotify's app
+
+1. Install librespot:
+
+   ```
+   brew install librespot
+   ```
+2. In MyGo Music, open Settings > Plugins > Spotify and allow it to start programs.
+3. Play something. The first time, your browser opens a Spotify page to sign librespot in: approve it with the same account, then play again if nothing started.
+
+librespot plays on this computer as the device **MyGo Music**. It's used when no other device is playing and you haven't chosen one. It runs while MyGo Music does.
 
 ## The MyGo Music Queue playlist
 
@@ -53,6 +65,6 @@ Spotify's Web API gives apps in Development Mode less than its own apps have:
 
 ## Privacy
 
-Your Spotify tokens are kept unencrypted in the plugin's data on this machine and are sent only to Spotify. Signing out forgets them. To revoke access on Spotify's side, remove the app on your Spotify account's **Manage apps** page.
+Your Spotify tokens are kept unencrypted in the plugin's data on this machine and are sent only to Spotify. Signing out forgets them; librespot's sign-in stays in the plugin's data, in the `librespot` folder, until you delete it. To revoke access on Spotify's side, remove the app on your Spotify account's **Manage apps** page.
 
 Each song's title, artist, album and length go to LRCLIB to find its lyrics.

@@ -524,11 +524,57 @@ export async function lyrics({ id }) {
 // Playing, on a Spotify Connect device: Spotify's own apps, a speaker, or
 // anything else the account can play on.
 
+// librespot, once installed and allowed, plays on this computer as its own
+// device, so Spotify's app needn't be open. Its first start opens the browser
+// to sign in; it keeps the sign-in in the plugin's data.
+const localName = "MyGo Music";
+const librespotPaths = ["/opt/homebrew/bin/librespot", "/usr/local/bin/librespot"];
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+let local = null;
+
+function startLocal() {
+  if (local) return local;
+  local = (async () => {
+    let p;
+    for (const path of librespotPaths) {
+      try {
+        p = host.spawn(path, [
+          "--name", localName, "--device-type", "computer", "--bitrate", "320",
+          "--disable-discovery", "--enable-oauth", "--system-cache", `${host.dataDir}/librespot`,
+        ]);
+        break;
+      } catch {}
+    }
+    if (!p) return;
+    let ended = false;
+    p.wait().then(() => {
+      ended = true;
+      local = null;
+    });
+    // The app gives up on a call after 30 seconds. A sign-in that takes longer
+    // still lands: the device shows on the next play.
+    const until = Date.now() + 20000;
+    try {
+      while (!ended && Date.now() < until) {
+        const { devices } = await call("GET", "/me/player/devices");
+        if (devices.some((d) => d.name === localName)) return;
+        await sleep(1000);
+      }
+    } catch {}
+  })();
+  return local;
+}
+
 async function deviceId() {
+  await startLocal();
   const { devices } = await call("GET", "/me/player/devices");
   const usable = devices.filter((d) => d.id && !d.is_restricted);
   const chosen = host.storage.get("device");
-  const d = usable.find((x) => x.is_active) || usable.find((x) => x.id === chosen) || usable[0];
+  const d =
+    usable.find((x) => x.is_active) ||
+    usable.find((x) => x.id === chosen) ||
+    usable.find((x) => x.name === localName) ||
+    usable[0];
   if (!d) throw new Error(noDevice);
   return d.id;
 }
@@ -622,6 +668,7 @@ export async function remoteState() {
 }
 
 export async function remoteDevices() {
+  await startLocal();
   const { devices } = await call("GET", "/me/player/devices");
   return devices.filter((d) => d.id && !d.is_restricted).map((d) => ({ id: d.id, name: d.name, active: d.is_active }));
 }

@@ -5,7 +5,8 @@
   "main": "index.js",
   "playback": "remote",
   "permissions": {
-    "network": ["api.spotify.com", "accounts.spotify.com", "lrclib.net"]
+    "network": ["api.spotify.com", "accounts.spotify.com", "lrclib.net"],
+    "process": ["/opt/homebrew/bin/librespot", "/usr/local/bin/librespot"]
   },
   "settings": [
     {
