@@ -1,0 +1,18 @@
+{
+  "id": "spotify",
+  "name": "Spotify",
+  "version": "0.1.0",
+  "main": "index.js",
+  "playback": "remote",
+  "permissions": {
+    "network": ["api.spotify.com", "accounts.spotify.com", "lrclib.net"]
+  },
+  "settings": [
+    {
+      "key": "clientId",
+      "label": "Client ID",
+      "help": "Create an app in Spotify's developer dashboard with the redirect URI http://127.0.0.1:43110/callback and Web API ticked, then paste its Client ID here.",
+      "link": "https://developer.spotify.com/dashboard"
+    }
+  ]
+}
