@@ -73,6 +73,8 @@ Spotify's Web API gives apps in Development Mode less than its own apps have:
 
 **Invalid redirect URI**, on Spotify's page when you sign in: the app in the dashboard doesn't have `http://127.0.0.1:43110/callback` exactly. Add it, save, and sign in again.
 
+**Spotify won't let this account in: add it under User Management in your app's dashboard, and check the app's owner has Premium**, right after you sign in: Spotify's Development Mode lets in only the account that made the app and the accounts added under **User Management**, and only while the account that made the app has Premium. If your browser was signed in to Spotify with another account, sign out of it there first. Fix whichever applies, then sign in again.
+
 **Open Spotify on this computer, your phone or a speaker, then play again**: no Spotify device is online. Open Spotify's app on one, or set up librespot. Right after librespot's first sign-in, play again.
 
 **Playing through Spotify needs Premium**: the account you signed in with is on Spotify Free.

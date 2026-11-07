@@ -190,7 +190,17 @@ export function setSetting({ key }) {
 
 export async function account() {
   if (!session()) return null;
-  const me = await call("GET", "/me");
+  let me;
+  try {
+    me = await call("GET", "/me");
+  } catch (e) {
+    if (e.status !== 403) throw e;
+    endSession();
+    throw fail(
+      "signIn",
+      "Spotify won't let this account in: add it under User Management in your app's dashboard, and check the app's owner has Premium",
+    );
+  }
   host.storage.set("me", me.id);
   return { id: me.id, name: me.display_name || me.id, imageUrl: imageOf(me.images) };
 }
