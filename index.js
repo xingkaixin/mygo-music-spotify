@@ -525,7 +525,7 @@ export async function lyrics({ id }) {
     album_name: t.album?.name || "",
     duration: String(Math.round(t.duration_ms / 1000)),
   });
-  const res = await fetch(`https://lrclib.net/api/get?${query}`, { headers: { "user-agent": "mygo-music-spotify/0.1.0" } });
+  const res = await fetch(`https://lrclib.net/api/get?${query}`, { headers: { "user-agent": "mygo-music-spotify/0.1.1" } });
   if (!res.ok) return {};
   const found = await res.json();
   return found.syncedLyrics ? { lrc: found.syncedLyrics } : {};
