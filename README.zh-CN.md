@@ -75,6 +75,8 @@ Spotify 给 Development Mode 应用开放的 Web API 比它自家 App 少：
 
 **Invalid redirect URI**（登录时 Spotify 页面显示）：后台里的 App 没有一字不差地填 `http://127.0.0.1:43110/callback`。补上、保存，再登录一次。
 
+**Spotify won't let this account in: add it under User Management in your app's dashboard, and check the app's owner has Premium**（登录后显示）：Spotify 的 Development Mode 只允许创建 App 的账号和加进 **User Management** 的账号使用，而且创建 App 的账号要有有效的 Premium。如果浏览器里登录的是另一个 Spotify 账号，先在浏览器里退出它。处理好对应的问题后，再登录一次。
+
 **Open Spotify on this computer, your phone or a speaker, then play again**：没有在线的 Spotify 设备。在某台设备上打开 Spotify App，或者配置 librespot。librespot 第一次登录完成后，再点一次播放。
 
 **Playing through Spotify needs Premium**：登录的账号是 Spotify Free。
